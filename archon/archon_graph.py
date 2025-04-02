@@ -22,7 +22,7 @@ from pydantic_ai.messages import (
 # Add the parent directory to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from archon.pydantic_ai_coder import pydantic_ai_coder, PydanticAIDeps
-from archon.llms_txt.vector_db.embedding_manager import EmbeddingManager # Import EmbeddingManager
+from archon.llms_txt.vector_db.embedding_manager import OpenAIEmbeddingGenerator # Import OpenAIEmbeddingGenerator
 from archon.refiner_agents.prompt_refiner_agent import prompt_refiner_agent
 from archon.refiner_agents.tools_refiner_agent import tools_refiner_agent, ToolsRefinerDeps
 from archon.refiner_agents.agent_refiner_agent import agent_refiner_agent, AgentRefinerDeps
@@ -118,12 +118,12 @@ async def define_scope_with_reasoner(state: AgentState):
 async def coder_agent(state: AgentState, writer):
     # Initialize EmbeddingManager (it loads its own env vars)
     # Note: Consider initializing this once outside the node if possible for efficiency
-    embedding_manager = EmbeddingManager()
+    embedding_manager = OpenAIEmbeddingGenerator()
 
     # Prepare dependencies, passing the embedding_manager
     deps = PydanticAIDeps(
         supabase=supabase,
-        embedding_manager=embedding_manager, # Pass the initialized EmbeddingManager
+        embedding_manager=embedding_manager, # Pass the initialized OpenAIEmbeddingGenerator
         reasoner_output=state['scope']
     )
 
