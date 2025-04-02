@@ -15,7 +15,7 @@ from pydantic_ai.models.anthropic import AnthropicModel
 from pydantic_ai.models.openai import OpenAIModel
 from openai import AsyncOpenAI # Keep for now if needed elsewhere, though likely removable later
 from supabase import Client
-from archon.llms_txt.vector_db.embedding_manager import EmbeddingManager # Import EmbeddingManager
+from archon.llms_txt.vector_db.embedding_manager import OpenAIEmbeddingGenerator # Import OpenAIEmbeddingGenerator
 
 # Add the parent directory to sys.path to allow importing from the parent directory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -41,7 +41,7 @@ logfire.configure(send_to_logfire='if-token-present')
 @dataclass
 class PydanticAIDeps:
     supabase: Client
-    embedding_manager: EmbeddingManager # Replace embedding_client with embedding_manager
+    embedding_manager: OpenAIEmbeddingGenerator # Replace embedding_client with embedding_manager
     reasoner_output: str
 
 pydantic_ai_coder = Agent(
